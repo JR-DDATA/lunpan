@@ -1,0 +1,147 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // 治愈系颜色库 (对应CSS变量 var(--color-1) 等)
+    const colorStops = [
+        { name: '蜜桃粉', color: '#FFB7B2', desc: '去偶遇一片粉红晚霞吧' },
+        { name: '奶油橘', color: '#FFDAC1', desc: '一杯甜甜的橘子汽水' },
+        { name: '薄荷绿', color: '#E2F0CB', desc: '找寻大自然中最清新的绿叶' },
+        { name: '水晶蓝', color: '#B5EAD7', desc: '抬头看看那片澄澈的天空' },
+        { name: '丁香紫', color: '#C7CEEA', desc: '或许会路过一家浪漫的紫色花店' },
+        { name: '柠檬黄', color: '#F9F871', desc: '寻找那些充满活力的鲜黄角落' }
+    ];
+
+    const wheel = document.getElementById('wheel');
+    const spinBtn = document.getElementById('spin-btn');
+    const resultModal = document.getElementById('result-modal');
+    const closeBtn = document.getElementById('close-btn');
+    const resultColor = document.getElementById('result-color');
+    const colorName = document.getElementById('color-name');
+    const greetingText = document.querySelector('.greeting-text');
+    const sparklesContainer = document.getElementById('sparkles');
+
+    let isSpinning = false;
+    let currentRotation = 0; // 累计旋转角度
+
+    // 初始化轮盘扇区和文字
+    function initWheel() {
+        const numSlices = colorStops.length;
+        const sliceAngle = 360 / numSlices;
+        
+        let gradientStyle = 'conic-gradient(';
+        colorStops.forEach((stop, index) => {
+            // 设置扇区背景
+            const startAngle = index * sliceAngle;
+            const endAngle = (index + 1) * sliceAngle;
+            gradientStyle += `${stop.color} ${startAngle}deg ${endAngle}deg${index < numSlices - 1 ? ', ' : ')'}`;
+            
+            // 添加文字标签
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'wheel-item';
+            // 文字旋转到扇区中间：起止角度中间值 + 偏移量(根据实际视觉中心调整)
+            const textAngle = startAngle + sliceAngle / 2;
+            itemDiv.style.transform = `rotate(${textAngle}deg)`;
+            itemDiv.innerHTML = `<span style="transform: rotate(90deg); display: block;">${stop.name}</span>`; // 让文字向外呈放射状阅读更适口
+            wheel.appendChild(itemDiv);
+        });
+        
+        // 应用背景渐变
+        wheel.style.background = gradientStyle;
+    }
+
+    initWheel();
+
+    // 抽奖逻辑
+    spinBtn.addEventListener('click', () => {
+        if (isSpinning) return;
+        isSpinning = true;
+        spinBtn.disabled = true;
+        spinBtn.textContent = '抽取中...';
+
+        // 基础圈数 (最少转4圈) + 随机额外角度
+        const spins = 4;
+        const randomExtraAngle = Math.floor(Math.random() * 360);
+        
+        // 计算最终的目标角度（累加保证顺着转）
+        currentRotation += (spins * 360) + randomExtraAngle;
+
+        // 执行 CSS 动画 (transition 已在 stylesheet 中定义)
+        wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+        // 增加一点点击粒子特效
+        createSparkles();
+
+        // 动画结束(css设为了4s)，提取结果
+        setTimeout(() => {
+            // 计算中奖索引 
+            // 轮盘顺时针旋转，而扇区是顺时针排列(0->360)，但顶部的指针在 0度/360度(正上)
+            // 所以指针指向的角度 = 360 - (最终角度 % 360) （如果考虑顶部是0度的话）
+            const numSlices = colorStops.length;
+            const sliceAngle = 360 / numSlices;
+            
+            // 旋转时整个转盘实际上带着扇区顺时针走了。
+            // 转盘旋转角度 R。顶部指针没动。相当于原来停在顶部的扇区转走了。
+            // 停在顶部的扇区，它的初始角度的“中间值”应该经过偏移抵消
+            // 具体公式：(360 - (currentRotation % 360)) / sliceAngle -> 向下取整
+            let normalizedAngle = currentRotation % 360;
+            let pointerAngle = (360 - normalizedAngle) % 360; 
+            
+            let winningIndex = Math.floor(pointerAngle / sliceAngle);
+            if (winningIndex === numSlices) winningIndex = 0;
+
+            const winningColor = colorStops[winningIndex];
+            showResult(winningColor);
+
+            isSpinning = false;
+            spinBtn.disabled = false;
+            spinBtn.textContent = '抽取我的颜色';
+        }, 4000); // 与 CSS 中的 transition duration 匹配
+    });
+
+    // 展示结果页面
+    function showResult(colorInfo) {
+        resultColor.style.backgroundColor = colorInfo.color;
+        colorName.textContent = colorInfo.name;
+        colorName.style.color = colorInfo.color;
+        // 使用滤镜加深字体颜色为了可读性
+        colorName.style.filter = 'brightness(0.8)'; 
+        greetingText.textContent = colorInfo.desc;
+        
+        // 浮现模态框
+        resultModal.classList.remove('hidden');
+    }
+
+    // 关闭/再抽一次
+    closeBtn.addEventListener('click', () => {
+        resultModal.classList.add('hidden');
+    });
+
+    // 简单的星星微交互
+    function createSparkles() {
+        for(let i=0; i<10; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.style.position = 'absolute';
+            sparkle.style.width = '10px';
+            sparkle.style.height = '10px';
+            sparkle.style.backgroundColor = '#FFB7B2';
+            sparkle.style.borderRadius = '50%';
+            
+            // 随机坐标在屏幕中下部
+            const x = window.innerWidth / 2 + (Math.random() - 0.5) * 200;
+            const y = window.innerHeight / 2 + 100 + (Math.random() - 0.5) * 50;
+            
+            sparkle.style.left = `${x}px`;
+            sparkle.style.top = `${y}px`;
+            
+            // 简易动画
+            sparkle.animate([
+                { transform: 'translateY(0) scale(1)', opacity: 1 },
+                { transform: `translateY(-${Math.random() * 100 + 50}px) scale(0)`, opacity: 0 }
+            ], {
+                duration: 800 + Math.random() * 400,
+                easing: 'cubic-bezier(0, .9, .57, 1)'
+            });
+            
+            sparklesContainer.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 1200);
+        }
+    }
+});

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>去遇见·治愈色卡抽选</title>
+    <!-- 引入Google Fonts中的圆润字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 头部欢迎文字 -->
+        <header class="header">
+            <h1>去遇见</h1>
+            <p>出发前，转动轮盘，抽取属于你的旅途幸运色。</p>
+        </header>
+
+        <!-- 轮盘主体区域 -->
+        <main class="wheel-section">
+            <div class="wheel-container">
+                <!-- 指针 -->
+                <div class="pointer">▼</div>
+                <!-- 轮盘 -->
+                <div class="wheel" id="wheel">
+                    <!-- 扇区将在JS中动态生成 -->
+                </div>
+                <!-- 中心装饰圆 -->
+                <div class="wheel-center">
+                    <div class="inner-circle"></div>
+                </div>
+            </div>
+            
+            <!-- 操作区 -->
+            <div class="action-area">
+                <button id="spin-btn" class="spin-btn">抽取我的颜色</button>
+            </div>
+        </main>
+
+        <!-- 结果展示弹层 -->
+        <div id="result-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="color-display" id="result-color"></div>
+                <h2>遇见 <span id="color-name">--</span></h2>
+                <p class="greeting-text">在旅途中发现它，然后拍下来吧</p>
+                <div class="modal-actions">
+                    <button id="close-btn" class="secondary-btn">再抽一次</button>
+                    <!-- 提示文字，由于纯前端无法直接分享微信，提供指引 -->
+                    <p class="share-hint">截图或长按保存本页，分享至微信</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 动效微交互元素 -->
+    <div class="sparkles-container" id="sparkles"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

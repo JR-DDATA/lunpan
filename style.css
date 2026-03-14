@@ -1,0 +1,309 @@
+/* 治愈系配色与基础变量 */
+:root {
+    --bg-color: #FAFAFA; /* 极简奶油白背景 */
+    --text-main: #5C5C5C; /* 柔和深灰文字 */
+    --text-light: #8E8E8E;
+    
+    /* 莫兰迪色系/马卡龙色卡 */
+    --color-1: #FFB7B2; /* 蜜桃粉 */
+    --color-2: #FFDAC1; /* 奶油橘 */
+    --color-3: #E2F0CB; /* 薄荷绿 */
+    --color-4: #B5EAD7; /* 水晶蓝 */
+    --color-5: #C7CEEA; /* 丁香紫 */
+    --color-6: #F9F871; /* 柠檬黄 */
+
+    --wheel-size: 300px;
+    --btn-color: #FFB7B2;
+    --btn-hover: #ff9e97;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'ZCOOL KuaiLe', 'Nunito', 'Microsoft YaHei', sans-serif; /* 圆润中英文字体 */
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden; /* 防止移动端滚动 */
+    /* 增加一个非常淡的温暖渐变背景 */
+    background: linear-gradient(135deg, #fffcf9 0%, #f4f7f6 100%);
+}
+
+.app-container {
+    width: 100%;
+    max-width: 480px; /* 适配移动端竖屏最大宽度 */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+
+/* 头部文案 */
+.header {
+    text-align: center;
+    animation: fadeInDown 1s ease-out;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    color: #4A4A4A;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.header p {
+    font-size: 1rem;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+/* 轮盘区域 */
+.wheel-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.wheel-container {
+    position: relative;
+    width: var(--wheel-size);
+    height: var(--wheel-size);
+    border-radius: 50%;
+    /* 增加治愈系外发光和内阴影让轮盘有立体感 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05), inset 0 0 15px rgba(255,255,255,0.5);
+    background-color: #fff;
+    padding: 10px; /* 留出白边 */
+}
+
+/* 轮盘本体 */
+.wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    transition: transform 4s cubic-bezier(0.25, 0.1, 0.15, 1); /* 平滑减速缓动效果 */
+    /* 默认背景，JS会自动覆盖 */
+    background: conic-gradient(
+        var(--color-1) 0 60deg, 
+        var(--color-2) 60deg 120deg, 
+        var(--color-3) 120deg 180deg, 
+        var(--color-4) 180deg 240deg, 
+        var(--color-5) 240deg 300deg, 
+        var(--color-6) 300deg 360deg
+    );
+}
+
+/* 轮盘上的文字标记层 */
+.wheel-item {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0% 0%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    /* 避免文字被裁剪的调整 */
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+/* 轮盘中心轴 */
+.wheel-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.inner-circle {
+    width: 20px;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 顶部指针 */
+.pointer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+    color: #ff7e67;
+    z-index: 20;
+    /* 简单的指针跳动动画 */
+    animation: bounce 2s infinite;
+}
+
+/* 按钮及交互区 */
+.action-area {
+    margin-top: 20px;
+}
+
+.spin-btn {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-family: inherit;
+    font-weight: 600;
+    color: #fff;
+    background-color: var(--btn-color);
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 8px 15px rgba(255, 183, 178, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.spin-btn:hover, .spin-btn:active {
+    background-color: var(--btn-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 183, 178, 0.5);
+}
+
+.spin-btn:disabled {
+    background-color: #ccc;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* 结果弹层 Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(250, 250, 250, 0.95);
+    backdrop-filter: blur(5px); /* 毛玻璃治愈效果 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    transform: scale(1);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    max-width: 90%;
+    width: 320px;
+}
+
+.modal.hidden .modal-content {
+    transform: scale(0.8);
+}
+
+/* 动态颜色展示块 */
+.color-display {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background-color: #ccc;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    /* 动效：展现时放大 */
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.modal-content h2 {
+    font-size: 2rem;
+    color: #4A4A4A;
+    margin-bottom: 10px;
+}
+
+.greeting-text {
+    color: var(--text-light);
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+
+/* 弹层次级按钮 */
+.secondary-btn {
+    padding: 10px 30px;
+    font-size: 1rem;
+    font-family: inherit;
+    color: #fff;
+    background-color: #B5EAD7; /* 水晶蓝 */
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.secondary-btn:hover {
+    background-color: #9cdac4;
+}
+
+.share-hint {
+    margin-top: 15px;
+    font-size: 0.8rem;
+    color: #bbb;
+}
+
+/* 动画定义 */
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 5px); }
+}
+
+@keyframes popIn {
+    0% { transform: scale(0); opacity: 0; }
+    80% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+/* 简单的微交互：点击特效粒子容器（如果在JS中实现需要） */
+.sparkles-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 50;
+}
