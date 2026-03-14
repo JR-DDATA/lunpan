@@ -21,6 +21,9 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+body {
     /* 恢复圆润中英文字体 */
     font-family: 'ZCOOL KuaiLe', 'Nunito', 'Microsoft YaHei', sans-serif; 
     background-color: var(--bg-color);
