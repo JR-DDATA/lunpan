@@ -1,4 +1,4 @@
-/* 治愈系旅行配色与基础变量 - 增加色彩饱和度 */
+/* 治愈系旅行配色与基础变量 - 恢复最初明快版 */
 :root {
     --bg-color: #F7F9F9; /* 极简奶油白，带微弱冷感 */
     --text-main: #4A5568; /* 加深文字对比度 */
@@ -29,13 +29,13 @@ body {
     background-color: var(--bg-color);
     color: var(--text-main);
     display: flex;
-    justify-content: center;
     align-items: center;
     min-height: 100vh;
     overflow: hidden; /* 防止移动端滚动 */
     /* 旅行感背景：天空蓝到大地暖白的极其轻微的渐变 */
     background: linear-gradient(135deg, #E6F3FF 0%, #FFF5EB 100%);
 }
+
 
 .app-container {
     width: 100%;
@@ -111,21 +111,29 @@ body {
 /* 轮盘上的文字标记层 */
 .wheel-item {
     position: absolute;
-    width: 50%;
-    height: 50%;
-    top: 50%;
-    left: 50%;
-    transform-origin: 0% 0%;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    /* 容器中心点与轮盘重合 */
+    transform-origin: 50% 50%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* 水平居中 */
+    align-items: flex-start; /* 将文字推到该容器的最顶部 (即轮盘的12点方向) */
     font-size: 1.2rem;
     font-weight: 600;
     color: #fff;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-    /* 避免文字被裁剪的调整 */
-    padding-left: 20px;
-    padding-top: 20px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+    /* 给顶部留一点空隙，让文字位于扇区外围 */
+    padding-top: 30px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.wheel-item span {
+    /* 文字本身不需要再额外旋转，父级容器转到哪，它就在那里的12点钟方向 */
+    display: inline-block;
 }
 
 /* 轮盘中心轴 */
@@ -257,8 +265,22 @@ body {
 
 .greeting-text {
     color: var(--text-light);
-    margin-bottom: 30px;
+    margin-bottom: 20px; /* 留出空间给专属打气文字 */
     font-size: 1rem;
+}
+
+.special-cheer {
+    color: var(--color-3); /* 用雾霾蓝做特殊提醒，温和又醒目 */
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+    animation: bounceText 2s infinite ease-in-out;
+}
+
+@keyframes bounceText {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
 }
 
 /* 弹层次级按钮 */

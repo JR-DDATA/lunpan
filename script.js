@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 治愈系旅行颜色库 (对应CSS变量，色彩更鲜明利于拍照寻色)
+    // 治愈系旅行颜色库 (纯净文字版，彻底解决跨界问题)
     const colorStops = [
-        { name: '落樱粉', color: '#FF8BA7', desc: '去偶遇一片粉红晚霞或绽放的花朵吧' },
-        { name: '日落橘', color: '#FFB347', desc: '寻找黄昏时分那一抹温暖的落日' },
-        { name: '新叶绿', color: '#8AC926', desc: '走进大自然，找寻最生机勃勃的绿叶' },
-        { name: '晴空蓝', color: '#4CC9F0', desc: '抬头看看那片最澄澈明朗的天空' },
-        { name: '薰衣紫', color: '#9D8DF1', desc: '或许会路过一家浪漫的紫色花店' },
-        { name: '向日黄', color: '#FFCA3A', desc: '去捕捉旅途中那些充满活力的色彩' }
+        { name: '落樱粉', color: '#FF8BA7', desc: '去偶遇一片粉红晚霞或绽放的花朵吧 (❁´◡`❁)' },
+        { name: '日落橘', color: '#FFB347', desc: '寻找黄昏时分那一抹温暖的落日 🌅' },
+        { name: '新叶绿', color: '#8AC926', desc: '走进大自然，找寻最生机勃勃的绿叶 🍃' },
+        { name: '晴空蓝', color: '#4CC9F0', desc: '抬头看看那片最澄澈明朗的天空吧 ☁️' },
+        { name: '薰衣紫', color: '#9D8DF1', desc: '或许会路过一家浪漫的紫色花店 🔮' },
+        { name: '向日黄', color: '#FFCA3A', desc: '去捕捉旅途中那些充满活力的鲜亮度 ✧(≖ ◡ ≖✿)' }
     ];
 
     const wheel = document.getElementById('wheel');
@@ -33,13 +33,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const endAngle = (index + 1) * sliceAngle;
             gradientStyle += `${stop.color} ${startAngle}deg ${endAngle}deg${index < numSlices - 1 ? ', ' : ')'}`;
             
-            // 添加文字标签
+            // 采用 100% 容器布局：每个 itemDiv 都是覆盖全圆的
             const itemDiv = document.createElement('div');
             itemDiv.className = 'wheel-item';
-            // 文字旋转到扇区中间：起止角度中间值 + 偏移量(根据实际视觉中心调整)
+            
+            // 背景 conic-gradient 0度是在12点钟方向
+            // 我们将全屏容器也转到该扇区的中心角度 (textAngle)
+            // 此时该容器的顶部（12点）正中心就刚好在色块的中间
             const textAngle = startAngle + sliceAngle / 2;
             itemDiv.style.transform = `rotate(${textAngle}deg)`;
-            itemDiv.innerHTML = `<span style="transform: rotate(90deg); display: block;">${stop.name}</span>`; // 让文字向外呈放射状阅读更适口
+            
+            // 里面只需要放一个正着的 span，CSS 会自动把它推到顶部居中
+            itemDiv.innerHTML = `<span>${stop.name}</span>`;
             wheel.appendChild(itemDiv);
         });
         
