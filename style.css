@@ -271,11 +271,34 @@ body {
 
 .special-cheer {
     color: var(--color-3); /* 用雾霾蓝做特殊提醒，温和又醒目 */
-    font-size: 1.2rem;
+    font-size: 1.15rem;
     font-weight: bold;
-    margin-bottom: 30px;
-    letter-spacing: 2px;
+    margin: 15px 0 25px 0;
+    letter-spacing: 1px;
     animation: bounceText 2s infinite ease-in-out;
+}
+
+/* 小宝插画容器样式 */
+.xiaobao-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.xiaobao-img {
+    width: 120px; /* 适中的显示大小 */
+    height: auto;
+    border-radius: 12px;
+    /* 增加非常细微的治愈投影 */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    /* 增加一个极其轻微的左右晃动/漂浮效果，像是在打招呼 */
+    animation: floatXiaoBao 4s infinite ease-in-out;
+}
+
+@keyframes floatXiaoBao {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-8px) rotate(2deg); }
 }
 
 @keyframes bounceText {
