@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 治愈系颜色库 (对应CSS变量 var(--color-1) 等)
+    // 治愈系旅行颜色库 (对应CSS变量，色彩更鲜明利于拍照寻色)
     const colorStops = [
-        { name: '蜜桃粉', color: '#FFB7B2', desc: '去偶遇一片粉红晚霞吧' },
-        { name: '奶油橘', color: '#FFDAC1', desc: '一杯甜甜的橘子汽水' },
-        { name: '薄荷绿', color: '#E2F0CB', desc: '找寻大自然中最清新的绿叶' },
-        { name: '水晶蓝', color: '#B5EAD7', desc: '抬头看看那片澄澈的天空' },
-        { name: '丁香紫', color: '#C7CEEA', desc: '或许会路过一家浪漫的紫色花店' },
-        { name: '柠檬黄', color: '#F9F871', desc: '寻找那些充满活力的鲜黄角落' }
+        { name: '落樱粉', color: '#FF8BA7', desc: '去偶遇一片粉红晚霞或绽放的花朵吧' },
+        { name: '日落橘', color: '#FFB347', desc: '寻找黄昏时分那一抹温暖的落日' },
+        { name: '新叶绿', color: '#8AC926', desc: '走进大自然，找寻最生机勃勃的绿叶' },
+        { name: '晴空蓝', color: '#4CC9F0', desc: '抬头看看那片最澄澈明朗的天空' },
+        { name: '薰衣紫', color: '#9D8DF1', desc: '或许会路过一家浪漫的紫色花店' },
+        { name: '向日黄', color: '#FFCA3A', desc: '去捕捉旅途中那些充满活力的色彩' }
     ];
 
     const wheel = document.getElementById('wheel');
@@ -100,9 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function showResult(colorInfo) {
         resultColor.style.backgroundColor = colorInfo.color;
         colorName.textContent = colorInfo.name;
-        colorName.style.color = colorInfo.color;
-        // 使用滤镜加深字体颜色为了可读性
-        colorName.style.filter = 'brightness(0.8)'; 
+        colorName.style.color = '#fff';
+        colorName.style.textShadow = '0 2px 4px rgba(0,0,0,0.2)'; // 给文字加点阴影增强可读性
+        
+        // 由于背景色变深，背景元素不用减低亮度，让它自身发散
+        resultColor.style.boxShadow = `0 10px 25px ${colorInfo.color}80`; // 散发同色光晕
         greetingText.textContent = colorInfo.desc;
         
         // 浮现模态框
@@ -121,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sparkle.style.position = 'absolute';
             sparkle.style.width = '10px';
             sparkle.style.height = '10px';
-            sparkle.style.backgroundColor = '#FFB7B2';
+            sparkle.style.backgroundColor = document.documentElement.style.getPropertyValue('--btn-color') || '#FF8BA7';
             sparkle.style.borderRadius = '50%';
             
             // 随机坐标在屏幕中下部

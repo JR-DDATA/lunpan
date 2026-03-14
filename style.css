@@ -1,30 +1,28 @@
-/* 治愈系配色与基础变量 */
+/* 治愈系旅行配色与基础变量 - 增加色彩饱和度 */
 :root {
-    --bg-color: #FAFAFA; /* 极简奶油白背景 */
-    --text-main: #5C5C5C; /* 柔和深灰文字 */
-    --text-light: #8E8E8E;
+    --bg-color: #F7F9F9; /* 极简奶油白，带微弱冷感 */
+    --text-main: #4A5568; /* 加深文字对比度 */
+    --text-light: #718096;
     
-    /* 莫兰迪色系/马卡龙色卡 */
-    --color-1: #FFB7B2; /* 蜜桃粉 */
-    --color-2: #FFDAC1; /* 奶油橘 */
-    --color-3: #E2F0CB; /* 薄荷绿 */
-    --color-4: #B5EAD7; /* 水晶蓝 */
-    --color-5: #C7CEEA; /* 丁香紫 */
-    --color-6: #F9F871; /* 柠檬黄 */
+    /* 强化的莫兰迪/自然色系 - 更适合现实中寻找对照物 */
+    --color-1: #FF8BA7; /* 浪漫落樱粉 (原来是较淡的蜜桃粉) */
+    --color-2: #FFB347; /* 温暖日落橘 (原来是较淡的奶油橘) */
+    --color-3: #8AC926; /* 生机新叶绿 (原来是浅薄荷绿) */
+    --color-4: #4CC9F0; /* 澄澈晴空蓝 (原来是浅水晶蓝) */
+    --color-5: #9D8DF1; /* 迷梦薰衣紫 (原来是浅丁香紫) */
+    --color-6: #FFCA3A; /* 明快向日黄 (原来是浅柠檬黄) */
 
     --wheel-size: 300px;
-    --btn-color: #FFB7B2;
-    --btn-hover: #ff9e97;
+    --btn-color: #FF8BA7;
+    --btn-hover: #FC6A8F;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
-
-body {
-    font-family: 'ZCOOL KuaiLe', 'Nunito', 'Microsoft YaHei', sans-serif; /* 圆润中英文字体 */
+    /* 恢复圆润中英文字体 */
+    font-family: 'ZCOOL KuaiLe', 'Nunito', 'Microsoft YaHei', sans-serif; 
     background-color: var(--bg-color);
     color: var(--text-main);
     display: flex;
@@ -32,8 +30,8 @@ body {
     align-items: center;
     min-height: 100vh;
     overflow: hidden; /* 防止移动端滚动 */
-    /* 增加一个非常淡的温暖渐变背景 */
-    background: linear-gradient(135deg, #fffcf9 0%, #f4f7f6 100%);
+    /* 旅行感背景：天空蓝到大地暖白的极其轻微的渐变 */
+    background: linear-gradient(135deg, #E6F3FF 0%, #FFF5EB 100%);
 }
 
 .app-container {
@@ -266,7 +264,7 @@ body {
     font-size: 1rem;
     font-family: inherit;
     color: #fff;
-    background-color: #B5EAD7; /* 水晶蓝 */
+    background-color: var(--color-4); /* 使用澄澈蓝 */
     border: none;
     border-radius: 20px;
     cursor: pointer;
